@@ -1,3 +1,5 @@
+using System;
+using LanguageExt.Parsec;
 using NUnit.Framework;
 using RomanMath.Impl;
 
@@ -30,6 +32,21 @@ namespace RomanMath.Tests
 			Assert.AreEqual(5, Service.Evaluate("X - V"));
 			Assert.AreEqual(25, Service.Evaluate("X-V+V* IV"));
 			Assert.AreEqual(40, Service.Evaluate("(X-V +V )*IV"));
+		}
+
+		[Test]
+		public void TestExceptions()
+		{
+			Assert.Throws<ArgumentNullException>(() => Service.Evaluate(""));
+			Assert.Throws<ArgumentNullException>(() => Service.Evaluate(null));
+			Assert.Throws<ParserException>(() =>
+			{
+				var res = Service.Evaluate("hello");
+			});
+			Assert.Throws<ParserException>(() =>
+			{
+				var res = Service.Evaluate("X/V");
+			});
 		}
 	}
 }

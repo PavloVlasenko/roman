@@ -18,10 +18,14 @@ namespace RomanMath.Impl
         /// <returns></returns>
         public static int Evaluate(string expression)
         {
+            if (string.IsNullOrEmpty(expression))
+                throw new ArgumentNullException(nameof(expression), "String is null or empty");
             var trimmed = expression.Where(t => !char.IsSeparator(t)).ToArray();
-            return parse(ParseExpression(), new string(trimmed))
-                .Match(err => throw new ParserException(err.Error.Msg),
-                    res => res.Result);
+            var parseToEnd = from res in ParseExpression()
+                from _ in eof
+                select res;
+            var parseResult = parse(parseToEnd, new string(trimmed));
+            return parseResult.ToEither().Match(res => res, err => throw new ParserException(err));
         }
 
         //Table of operators. * has higher priority than + or -, thus it's in second array
