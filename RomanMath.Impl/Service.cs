@@ -15,7 +15,7 @@ namespace RomanMath.Impl
         /// <param name="expression">Expression to evaluate</param>
         /// <exception cref="ArgumentNullException">If provided expression string is null or empty</exception>
         /// <exception cref="ParserException">If provided expression is invalid math expression</exception>
-        /// <returns>Expression result in decomal format</returns>
+        /// <returns>Expression result in decimal format</returns>
         public static int Evaluate(string expression)
         {
             if (string.IsNullOrEmpty(expression))
@@ -90,7 +90,7 @@ namespace RomanMath.Impl
                 select (s.Length() + 5) * @base;
             //Like IV
             var oneUnderMid = str($"{low}{mid}").Select(t => 4 * @base);
-            //Like I, II. III
+            //Like I, II, III
             var overLow = ManyUpToN(ch(low), 3).Select(s => s.Length() * @base);
             return choice(attempt(oneUnderTop), attempt(overMid), attempt(oneUnderMid), attempt(overLow));
         }
