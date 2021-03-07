@@ -1,0 +1,20 @@
+﻿Create a console application written in C# that implements a following method:
+
+public static int Evaluate(string expression);
+
+The "Evaluate"	method accepts a math expression with Roman digits, evaluates it and returns a result in decimal format. For example: "I+II-I" = 2 or "X-V"=5. Allowed operators: "+", "-", "*". The method should also validate an input argument by following rules:
+	- "expression" argument shouldn't be null or empty
+	- "expression" should contain only whitespaces, allowed operators: "+", "-", "*" and letters: M = 1000, D = 500, C = 100, L = 50, X = 10, V = 5, I = 1
+	- No parentheses, punctuation mark or decimal digits 
+	- It should be a valid math expression
+
+Evaluation criteria:
+1. Correctness and business requirements fulfillment
+2. Code readability
+3. Lines of code
+4. Usage of existing .net tools, lack of low-level data manipulations
+5. C# version 5.0 or higher
+6. .net framework 4.5 or .net core 2.0 or greater
+
+Nice to have:
+7. Unit tests

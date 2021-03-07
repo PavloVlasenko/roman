@@ -1,0 +1,2 @@
+Implement a test application logic. Find a sample C# solution in "RomanMath.zip" archive and all test application requirenments in "TODO.txt" file. Pay attention to extra comments inside the project.
+Publish your implementation to GitHub and send us back a link.
