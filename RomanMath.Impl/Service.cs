@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
-using LanguageExt;
 using LanguageExt.Parsec;
 using static LanguageExt.Parsec.Char;
 using static LanguageExt.Parsec.Prim;
@@ -11,11 +10,12 @@ namespace RomanMath.Impl
     public static class Service
     {
         /// <summary>
-        /// See TODO.txt file for task details.
-        /// Do not change contracts: input and output arguments, method name and access modifiers
+        /// Accepts a math expression with Roman digits, evaluates it and returns a result in decimal format
         /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
+        /// <param name="expression">Expression to evaluate</param>
+        /// <exception cref="ArgumentNullException">If provided expression string is null or empty</exception>
+        /// <exception cref="ParserException">If provided expression is invalid math expression</exception>
+        /// <returns>Expression result in decomal format</returns>
         public static int Evaluate(string expression)
         {
             if (string.IsNullOrEmpty(expression))
@@ -68,6 +68,9 @@ namespace RomanMath.Impl
             from one in GenericParse(1, 'I', 'V', 'X')
             select thousand + hundred + ten + one;
 
+        /// <summary>
+        /// Applies <see cref="n"/> or less times provided <see cref="parser"/>
+        /// </summary>
         private static Parser<ImmutableStack<T>> ManyUpToN<T>(Parser<T> parser, int n)
         {
             if (n <= 0) return result(ImmutableStack<T>.Empty);
@@ -79,11 +82,15 @@ namespace RomanMath.Impl
 
         private static Parser<int> GenericParse(int @base, char low, char mid, char top)
         {
+            //Like IX
             var oneUnderTop = str($"{low}{top}").Select(t => 9 * @base);
+            //Like VI, VII, VIII
             var overMid = from _ in ch(mid)
                 from s in ManyUpToN(ch(low), 3)
                 select (s.Length() + 5) * @base;
+            //Like IV
             var oneUnderMid = str($"{low}{mid}").Select(t => 4 * @base);
+            //Like I, II. III
             var overLow = ManyUpToN(ch(low), 3).Select(s => s.Length() * @base);
             return choice(attempt(oneUnderTop), attempt(overMid), attempt(oneUnderMid), attempt(overLow));
         }
